@@ -1,0 +1,196 @@
+{
+
+    "Description": "Lambda deployment of TrailDash2",
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "1elasticsearchClusterAddress": {
+            "Type": "String",
+            "Description": "The full https url to your elastic search instance/cluster"
+        },
+        "2S3Bucket": {
+            "Description": "Name of the bucket where the lambda code will be",
+            "Type": "String"
+        },
+
+        "3S3ItemKey": {
+            "Description": "path inside the bucket to the code file. '/traildash2/index.zip' for example",
+            "Type": "String"
+        },
+        "4CloudTrailS3Bucket":{
+            "Description":"Name of the bucket where your cloudtrail logs are stored",
+            "Type": "String"
+        },
+
+        "LambdaMemorySize": {
+            "Type": "Number",
+            "Description": "Amount of memory (must be a multiple of 64)",
+            "Default": 128
+        },
+
+        "LambdaFuntionTimeOut": {
+            "Type": "Number",
+            "Description": "Set timeout for lambda function (seconds)",
+            "Default": 20
+        },
+
+        "LambdaRunType": {
+            "Type": "String",
+            "Description": "The lambda runtime to use",
+            "Default": "nodejs4.3"
+        },
+
+        "LambdaHandler": {
+            "Type": "String",
+            "Description": "The default lambda Handler to use",
+            "Default": "index.handler"
+        },
+
+
+
+    },
+
+
+    "Resources": {
+
+        "AWSIAM": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+                "AssumeRolePolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Service": ["lambda.amazonaws.com"]
+                        },
+                        "Action": ["sts:AssumeRole"]
+                    }]
+                },
+                "Path": "/",
+                "Policies": [{
+                    "PolicyName": "Default-Lambda-Access",
+                    "PolicyDocument": {
+                        "Statement": [{
+                            "Action": [
+                                "logs:CreateLogGroup",
+                                "logs:CreateLogStream",
+                                "logs:PutLogEvents"
+                            ],
+                            "Effect": "Allow",
+                            "Resource": [
+                                "arn:aws:logs:*:*:*"
+                            ]
+                        }]
+                    }
+                }, {
+                    "PolicyName": "Elastic-Search-Access",
+                    "PolicyDocument": {
+                        "Statement": [{
+                            "Action": ["es:*"],
+                            "Effect": "Allow",
+                            "Resource": ["*"]
+                        }]
+                    }
+                }, {
+                    "PolicyName": "S3-access",
+                    "PolicyDocument": {
+                        "Statement": [{
+                            "Action": ["s3:GetObject", "s3:ListBucket"],
+                            "Effect": "Allow",
+                            "Resource": [{
+                                "Fn::Join": ["", ["arn:aws:s3:::", {
+                                    "Ref": "2S3Bucket"
+                                }, {
+                                    "Ref": "3S3ItemKey"
+                                }]]
+                            }]
+                        }]
+                    }
+                },
+                {
+                    "PolicyName": "cloudtrail-s3-access",
+                    "PolicyDocument": {
+                        "Statement": [{
+                            "Action": ["s3:GetObject", "s3:ListBucket"],
+                            "Effect": "Allow",
+                            "Resource": [{
+                                "Fn::Join": ["", ["arn:aws:s3:::", {"Ref": "4CloudTrailS3Bucket"}, "/*"]]
+                            }]
+                        }]
+                    }
+                }]
+            }
+        },
+
+        "RootInstanceProfile": {
+            "Type": "AWS::IAM::InstanceProfile",
+            "Properties": {
+                "Path": "/",
+                "Roles": [{
+                    "Ref": "AWSIAM"
+                }]
+            }
+        },
+
+        "LambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+                "Handler": {
+                    "Ref": "LambdaHandler"
+                },
+                "Role": {
+                    "Fn::Join": ["", ["arn:aws:iam::", {
+                        "Ref": "AWS::AccountId"
+                    }, ":role/", {
+                        "Ref": "AWSIAM"
+                    }]]
+                },
+                "Code": {
+                    "S3Bucket": {
+                        "Ref": "2S3Bucket"
+                    },
+                    "S3Key": {
+                        "Ref": "3S3ItemKey"
+                    }
+                },
+                "Runtime": {
+                    "Ref": "LambdaRunType"
+                },
+                "Environment": {
+                    "Variables": {
+                        "elasticsearchurl": {
+                            "Ref": "1elasticsearchClusterAddress"
+                        }
+                    }
+                },
+                "MemorySize": {
+                    "Ref": "LambdaMemorySize"
+                },
+                "Timeout": {
+                    "Ref": "LambdaFuntionTimeOut"
+                }
+            }
+        },
+        "LambdaInvokePermission": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+                "FunctionName": {
+                    "Fn::GetAtt": ["LambdaFunction", "Arn"]
+                },
+                "Action": "lambda:InvokeFunction",
+                "Principal": "s3.amazonaws.com",
+                "SourceAccount": {
+                    "Ref": "AWS::AccountId"
+                }
+            }
+
+        }
+    },
+    "Outputs": {
+        "LambdaFunctionOutput": {
+            "Description": "Lambda ARN",
+            "Value": {
+                "Fn::GetAtt": ["LambdaFunction", "Arn"]
+            }
+        }
+    }
+}

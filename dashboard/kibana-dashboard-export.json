@@ -1,0 +1,172 @@
+[
+  {
+    "_id": "Main-Dashboard",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Main-Dashboard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"CloudTrail-Events\",\"panelIndex\":1,\"row\":1,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"Active-Users\",\"panelIndex\":2,\"row\":1,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"Top-10-Active-AWS-Services\",\"panelIndex\":4,\"row\":3,\"size_x\":4,\"size_y\":4,\"type\":\"visualization\"},{\"col\":5,\"id\":\"Regions-In-Use\",\"panelIndex\":5,\"row\":5,\"size_x\":4,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"columns\":[\"eventSource\",\"eventName\",\"userIdentity.userName\",\"userIdentity.principalId\"],\"id\":\"Events-List\",\"panelIndex\":6,\"row\":7,\"size_x\":12,\"size_y\":36,\"sort\":[\"eventTime\",\"desc\"],\"type\":\"search\"},{\"col\":9,\"id\":\"Event-Names\",\"panelIndex\":7,\"row\":3,\"size_x\":4,\"size_y\":4,\"type\":\"visualization\"},{\"col\":5,\"id\":\"Console-Login-Number\",\"panelIndex\":8,\"row\":3,\"size_x\":2,\"size_y\":2,\"type\":\"visualization\"},{\"id\":\"Account-Number\",\"type\":\"visualization\",\"panelIndex\":12,\"size_x\":2,\"size_y\":2,\"col\":7,\"row\":3}]",
+      "optionsJSON": "{\"darkTheme\":true}",
+      "uiStateJSON": "{\"P-1\":{\"vis\":{\"legendOpen\":false}},\"P-2\":{\"vis\":{\"legendOpen\":true}},\"P-7\":{\"spy\":{\"mode\":{\"fill\":false,\"name\":null}}}}",
+      "version": 1,
+      "timeRestore": true,
+      "timeTo": "now/d",
+      "timeFrom": "now/d",
+      "refreshInterval": {
+        "display": "Off",
+        "pause": false,
+        "section": 0,
+        "value": 0
+      },
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Describe*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Describe*\"}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"List*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"List*\"}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Get*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Get*\"}}},{\"$state\":{\"store\":\"appState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Assume*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Assume*\"}}},{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Events-List",
+    "_type": "search",
+    "_source": {
+      "title": "Events-List",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "eventSource",
+        "eventName",
+        "userIdentity.userName",
+        "userIdentity.principalId"
+      ],
+      "sort": [
+        "eventTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647}}"
+      }
+    }
+  },
+  {
+    "_id": "ConsoleLogins",
+    "_type": "search",
+    "_source": {
+      "title": "ConsoleLogins",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "eventSource",
+        "eventName",
+        "userIdentity.userName",
+        "userIdentity.principalId"
+      ],
+      "sort": [
+        "eventTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"ConsoleLogin\",\"analyze_wildcard\":true}},\"filter\":[{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Describe*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Describe*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"List*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"List*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Get*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Get*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Assume*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Assume*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}}],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647}}"
+      }
+    }
+  },
+  {
+    "_id": "CloudTrail-Events",
+    "_type": "visualization",
+    "_source": {
+      "title": "CloudTrail Events",
+      "visState": "{\"title\":\"CloudTrail Events\",\"type\":\"area\",\"params\":{\"shareYAxis\":true,\"addTooltip\":false,\"addLegend\":true,\"legendPosition\":\"top\",\"smoothLines\":false,\"scale\":\"linear\",\"interpolate\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"AWS Events\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"eventTime\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Time\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Active-Users",
+    "_type": "visualization",
+    "_source": {
+      "title": "Active Users",
+      "visState": "{\"title\":\"Active Users\",\"type\":\"histogram\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"top\",\"scale\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Calls\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"userIdentity.userName.keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Users\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Regions-In-Use",
+    "_type": "visualization",
+    "_source": {
+      "title": "Regions In Use",
+      "visState": "{\"title\":\"Regions In Use\",\"type\":\"tagcloud\",\"params\":{\"scale\":\"linear\",\"orientation\":\"single\",\"minFontSize\":16,\"maxFontSize\":45},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"awsRegion.keyword\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Regions in use\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Event-Names",
+    "_type": "visualization",
+    "_source": {
+      "title": "Event Names",
+      "visState": "{\"title\":\"Event Names\",\"type\":\"pie\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"eventName.keyword\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"AWS Events\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "Top-10-Active-AWS-Services",
+    "_type": "visualization",
+    "_source": {
+      "title": "Top 10 Active AWS Services",
+      "visState": "{\"title\":\"Top 10 Active AWS Services\",\"type\":\"pie\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"left\",\"isDonut\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"AWS Services\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"eventSource.keyword\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Event Sources\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[{\"$state\":{\"store\":\"globalState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Describe*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Describe*\"}}},{\"$state\":{\"store\":\"globalState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"List*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"List*\"}}},{\"$state\":{\"store\":\"globalState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Get*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Get*\"}}},{\"$state\":{\"store\":\"globalState\"},\"meta\":{\"alias\":null,\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Assume*\"},\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"Assume*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Console-Login-Number",
+    "_type": "visualization",
+    "_source": {
+      "title": "Console Login Number",
+      "visState": "{\"title\":\"Console Login Number\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":\"43\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "ConsoleLogins",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Describe*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Describe*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"List*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"List*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Get*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Get*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}},{\"meta\":{\"disabled\":false,\"index\":\"logstash-*\",\"key\":\"query\",\"negate\":true,\"value\":\"Assume*\",\"alias\":null},\"query\":{\"query_string\":{\"query\":\"Assume*\",\"analyze_wildcard\":true}},\"$state\":{\"store\":\"globalState\"}}]}"
+      }
+    }
+  },
+  {
+    "_id": "Account-Number",
+    "_type": "visualization",
+    "_source": {
+      "title": "Account Number",
+      "visState": "{\"title\":\"Account Number\",\"type\":\"tagcloud\",\"params\":{\"scale\":\"linear\",\"orientation\":\"single\",\"minFontSize\":12,\"maxFontSize\":32},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"segment\",\"params\":{\"field\":\"recipientAccountId.keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Account Number\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"logstash-*\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  }
+]

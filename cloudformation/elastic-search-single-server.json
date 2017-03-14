@@ -1,0 +1,105 @@
+{
+
+    "Description": "ElasticSearch Template For TrailDash2",
+
+    "Parameters": {
+
+        "AllowedAccessIPs": {
+            "Description": "CSV list of IPs in CIDR format for access into ES.",
+            "Type": "CommaDelimitedList",
+            "ConstraintDescription": "IPs need to be in CIDR format"
+        },
+        "InstanceCount": {
+            "Description": "The number instances that actually run the DB with data. 2 or more for HA deployments",
+            "Type": "String",
+            "Default": "1"
+        },
+        "InstanceSize": {
+            "Description": "The size of the instances to use for the ES domain",
+            "Default": "t2.small.elasticsearch",
+            "Type": "String",
+            "AllowedValues": ["t2.micro.elasticsearch", "t2.small.elasticsearch", "t2.medium.elasticsearch", "m3.medium.elasticsearch", "m3.large.elasticsearch", "m3.xlarge.elasticsearch", "r3.large.elasticsearch", "r3.xlarge.elasticsearch"]
+        },
+        "DiskSize": {
+            "Description": "The amount of EBS to assign to each cluster node",
+            "Default": 10,
+            "Type": "Number"
+        }
+
+    },
+
+    "Resources": {
+        "ElasticsearchDomain": {
+            "Type": "AWS::Elasticsearch::Domain",
+            "Properties": {
+                "ElasticsearchClusterConfig": {
+                    "InstanceType": {
+                        "Ref": "InstanceSize"
+                    },
+                    "InstanceCount": {
+                        "Ref": "InstanceCount"
+                    },
+                },
+                "EBSOptions": {
+                    "EBSEnabled": true,
+                    "VolumeSize": {
+                        "Ref": "DiskSize"
+                    },
+                    "VolumeType": "gp2"
+                },
+                "SnapshotOptions": {
+                    "AutomatedSnapshotStartHour": "6"
+                },
+                "AccessPolicies": {
+                    "Version": "2012-10-17",
+                    "Statement": [{
+                        "Effect": "Allow",
+                        "Principal": {
+                            "AWS": "*"
+                        },
+                        "Action": "es:*",
+                        "Resource": "*",
+                        "Condition": {
+                            "IpAddress": {
+                                "aws:SourceIp": {
+                                    "Ref": "AllowedAccessIPs"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "AWS": { "Fn::Join": ["",["arn:aws:iam::",{"Ref":"AWS::AccountId"}, ":root" ]]  }
+                        },
+                        "Action": "es:*",
+                        "Resource": "*"
+                    }]
+                },
+                "AdvancedOptions": {
+                    "rest.action.multi.allow_explicit_index": "true"
+                },
+                "ElasticsearchVersion": "5.1",
+                "Tags": [{
+                    "Key": "Name",
+                    "Value": {
+                        "Ref": "AWS::StackName"
+                    }
+                }
+              ]
+            }
+        }
+    },
+
+    "Outputs": {
+        "ESEndpoint": {
+            "Description": "CNAME ES endpoint",
+            "Value": {
+                "Fn::Join": ["", [{
+                    "Fn::GetAtt": ["ElasticsearchDomain", "DomainEndpoint"]
+                }]]
+            }
+        }
+    }
+
+}
