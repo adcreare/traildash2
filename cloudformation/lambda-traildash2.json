@@ -13,7 +13,7 @@
         },
 
         "3S3ItemKey": {
-            "Description": "path inside the bucket to the code file. '/traildash2/index.zip' for example",
+            "Description": "path inside the bucket to the code file. 'traildash2/index.zip' for example",
             "Type": "String"
         },
         "4CloudTrailS3Bucket":{
