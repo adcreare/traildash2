@@ -3,6 +3,13 @@
 A Serverless Dashboard system to display and filter AWS CloudTrail Logs
 ![Dashboard](/documentation/image1.png)
 
+## Table of Contents
+
+* [What is TrailDash2?](#what-is-traildash2?)
+* [Installation and Usage instructions](#installation-and-usage-instructions)
+    * [Part 1: Deploying](#Part-1:-Deploying)
+    * [Part 2: Setting up the dashboard](#Part-2:-Setting-up-the-dashboard)
+* [Troubleshooting / Known problems](#troubleshooting-/-Known-problems)
 
 ## What is TrailDash2?
 
@@ -15,6 +22,8 @@ Enter TrailDash2, much like the original, however now completely serverless. Tra
 The Dashboard shown is using the built in the Kibana that comes with the AWS ElasticSearch service. The Dashboard configuration can be imported from this Repo directly into your AWS ElasticSearch to obtain the same dashboard.
 
 The repo includes CloudFormation Templates that can be applied to your AWS account that will perform the deployment of AWS ElasticSearch and AWS Lambda functions.
+
+
 
 
 
