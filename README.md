@@ -7,9 +7,9 @@ A Serverless Dashboard system to display and filter AWS CloudTrail Logs
 
 * [What is TrailDash2?](#what-is-traildash2?)
 * [Installation and Usage instructions](#installation-and-usage-instructions)
-    * [Part 1: Deploying](#Part-1:-Deploying)
-    * [Part 2: Setting up the dashboard](#Part-2:-Setting-up-the-dashboard)
-* [Troubleshooting / Known problems](#troubleshooting-/-Known-problems)
+    * [Part 1: Deploying](#part-1:-Deploying)
+    * [Part 2: Setting up the dashboard](#part-2:-setting-up-the-dashboard)
+* [Troubleshooting and Known problems](#troubleshooting-and-known-problems)
 
 ## What is TrailDash2?
 
@@ -77,7 +77,7 @@ For everyone else see below! :)
 ![kibanaPostImport](/documentation/image9.png)
 
 
-## Troubleshooting / Known problems
+## Troubleshooting and Known problems
 * Kibana shows error bar **Courier Fetch: x of n shards failed**: This is normally due to having selected the incorrect Time-field name in Part 2 of the setup. To fix, go into the AWS elasticsearch console. *Delete* the **.kibana** index. Reload Kibana in your browser and set it up again.
 
 * No data in elasticsearch: Check that the lambda function is being exceuted. If it is being executed check the cloudwatch logs for the result of the call to elasticsearch. If the lambda function is not being called, check that your event trigger in S3 is setup correctly and that the bucket is in the same region as your lambda function
